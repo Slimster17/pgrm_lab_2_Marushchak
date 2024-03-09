@@ -1,0 +1,33 @@
+import UIKit
+
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var tableView: UITableView!
+    var students: [Student] = []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.dataSource = self
+        tableView.delegate = self
+        students = [
+            Student(name: "John Doe", photo: UIImage(named: "john"), bio: "John is a great student."),
+            Student(name: "Jane Smith", photo: UIImage(named: "jane"), bio: "Jane loves programming."),
+            Student(name: "Alice Johnson", photo: UIImage(named: "alice"), bio: "Alice is passionate about design.")
+        ]
+        tableView.reloadData()
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return students.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "StudentCell", for: indexPath)
+        let student = students[indexPath.row]
+        cell.textLabel?.text = student.name
+        cell.detailTextLabel?.text = student.bio
+        if let photo = student.photo {
+            cell.imageView?.image = photo
+        }
+        return cell
+    }
+}
